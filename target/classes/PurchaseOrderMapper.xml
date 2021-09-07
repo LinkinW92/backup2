@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.skeqi.htd.po.mapper.PurchaseOrderMapper">
+    <insert id="createOrders">
+        <foreach collection="list" item="item" open="" close="" separator=";">
+            INSERT INTO t_purchase_order (order_no, sub_order_no, ex_order_no, order_time, delivery_time, cancel_time,
+            product_id, product, brand, product_sku, product_ext, due_account, supplier_id, supplier, purchaser_id,
+            purchaser,
+            materials, order_state, audit_state, stock_state, creator, has_tax, sub_warehouse, remark )
+            VALUES (#{item.orderNo}, #{item.subOrderNo}, #{item.exOrderNo}, #{item.orderTime}, #{item.deliveryTime},
+            #{item.cancelTime},#{item.productId}, #{item.product},#{item.brand},#{item.productSku},#{item.productExt},
+            #{item.dueAccount},#{item.supplierId},#{item.supplier},#{item.purchaserId},#{item.purchaser},
+            #{item.materials},#{item.orderState},#{item.auditState},#{item.stockState},#{item.creator},
+            #{item.hasTax},#{item.subWarehouse},#{item.remark}
+            )
+
+        </foreach>
+    </insert>
+    <update id="updateAuditStateByExOrderNo">
+        update t_purchase_order
+        set audit_state = #{auditState}
+        where ex_order_no = #{exOrderNo}
+    </update>
+
+    <select id="listOrdersBy" resultType="com.skeqi.htd.po.entity.PurchaseOrder">
+        select id as id,
+        order_no as orderNo,
+        sub_order_no as subOrderNo,
+        ex_order_no as exOrderNo,
+        order_time as orderTime,
+        delivery_time as deliveryTime,
+        cancel_time as cancelTime,
+        purchaser_id as purchaserId,
+        purchaser as purchaser,
+        product_id as productId,
+        product as product,
+        product_ext as productExt,
+        product_sku as product_sku,
+        supplier_id as supplierId,
+        supplier as supplier,
+        due_account as dueAccount,
+        materials as materials,
+        order_state as orderState,
+        audit_state as auditState,
+        stock_state as stockState,
+        creator as creator,
+        has_tax as hasTax,
+        remark as remark,
+        create_time as createTime,
+        update_time as updateTime
+        from t_purchase_order
+        where deleted = 0
+        <if test="vo.orderNo != null">and order_no = #{vo.orderNo}</if>
+        <if test="vo.orderTimeRange != null">and (order_time &lt; #{vo.orderTimeRange[1]} and order_time >
+            #{vo.orderTimeRange[0]})
+        </if>
+        <if test="vo.deliveryTimeRange != null">and (delivery_time &lt; #{vo.deliveryTimeRange[1]} and delivery_time >
+            #{vo.deliveryTimeRange[0]})
+        </if>
+        <if test="vo.cancelTimeRange != null">and (cancel_time &lt; #{vo.cancelTimeRange[1]} and cancel_time >
+            #{vo.cancelTimeRange[0]})
+        </if>
+        <if test="vo.supplier != null">and supplier = #{vo.supplier}</if>
+        <if test="vo.purchaser != null">and purchaser = #{vo.purchaser}</if>
+        <if test="vo.auditState != null">and audit_state = #{vo.auditState}</if>
+        <if test="vo.orderState != null">and order_state = #{vo.orderState}</if>
+        <if test="vo.stockState != null">and stock_state = #{vo.stockState}</if>
+        <if test="vo.hasTax != null">and has_tax = #{vo.hasTax}</if>
+        <if test="vo.subWarehouse != null">and sub_warehouse = #{vo.subWarehouse}</if>
+        <if test="vo.creator != null">and creator = #{vo.creator}</if>
+        <if test="vo.brand != null">and brand = #{vo.brand}</if>
+    </select>
+</mapper>

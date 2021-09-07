@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.skeqi.htd.po.mapper.ValveConfigMapper">
+
+    <select id="getValvesByOrderType" resultType="com.skeqi.htd.po.entity.ValveConfig">
+        select id          as id,
+               template_id as templateId,
+               order_type  as orderType,
+               name        as name,
+               auditor     as auditor,
+               auditor_id  as auditorId,
+               `order`     as `order`,
+               dept        as dept
+        from t_valve_config
+        where deleted = 0
+          and order_type = #{orderType};
+    </select>
+</mapper>

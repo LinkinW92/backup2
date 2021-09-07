@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.skeqi.htd.po.mapper.AuditFlowMapper">
+    <insert id="createAuditFlow">
+
+        INSERT INTO t_audit_flow(ex_order_no,
+                                 order_type,
+                                 audit_state,
+                                 template_id,
+                                 valve_id,
+                                 valve_name,
+                                 auditor,
+                                 auditor_id,
+                                 remark)
+        VALUES (#{af.exOrderNo}, #{af.orderType}, #{af.auditState}, #{af.templateId}, #{af.valveId},
+                #{af.valveName}, #{af.auditor}, #{af.auditorId}, #{af.remark});
+    </insert>
+
+    <select id="getLatestFlow" resultType="com.skeqi.htd.po.entity.AuditFlow">
+        select id          as id,
+               ex_order_no as exOrderNo,
+               order_type  as orderType,
+               audit_state as auditState,
+               template_id as templateId,
+               valve_id    as valveId,
+               auditor     as auditor,
+               auditor_id  as auditorId,
+               valve_name  as valveName,
+               remark      as remark
+        from t_audit_flow
+        where deleted = 0
+          and ex_order_no = #{exOrderNo}
+          and order_type = #{orderType};
+    </select>
+</mapper>

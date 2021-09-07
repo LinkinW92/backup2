@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.skeqi.htd.po.mapper.CustomerMapper">
+
+    <select id="getCustomerById" resultType="com.skeqi.htd.po.entity.Customer">
+        select id              as id,
+               name            as name,
+               code            as code,
+               type            as type,
+               relative_seller as relativeSeller,
+               contact         as contact,
+               contact_mobile  as contactMobile,
+               contact_tel     as contactTel,
+               contact_address as contactAddress
+        from t_customer
+        where id = #{id}
+    </select>
+    <select id="getCustomersByName" resultType="com.skeqi.htd.po.entity.Customer">
+        select id              as id,
+               name            as name,
+               code            as code,
+               type            as type,
+               relative_seller as relativeSeller,
+               contact         as contact,
+               contact_mobile  as contactMobile,
+               contact_tel     as contactTel,
+               contact_address as contactAddress
+        from t_customer
+        where name = #{customer}
+    </select>
+    <select id="getAllCustomerNames" resultType="java.lang.String">
+        select `name`
+        from t_customer
+        where deleted = 0;
+    </select>
+</mapper>

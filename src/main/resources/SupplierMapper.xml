@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.skeqi.htd.po.mapper.SupplierMapper">
+
+    <select id="getSupplierById" resultType="com.skeqi.htd.po.entity.Supplier">
+        select id                    as id,
+               name                  as name,
+               type                  as type,
+               code                  as code,
+               relative_purchaser_id as relativePurchaserId,
+               relative_purchaser    as relativePurchaser,
+               contact               as contact,
+               contact_mobile        as contactMobile,
+               contact_tel           as contactTel,
+               contact_address       as contactAddress
+        from t_supplier
+        where deleted = 0
+          and id = #{id};
+    </select>
+    <select id="getAllSupplierNames" resultType="java.lang.String">
+        select `name`
+        from t_supplier
+        where deleted = 0;
+    </select>
+    <select id="getSuppliersByName" resultType="com.skeqi.htd.po.entity.Supplier">
+        select id                    as id,
+               name                  as name,
+               type                  as type,
+               code                  as code,
+               relative_purchaser_id as relativePurchaserId,
+               relative_purchaser    as relativePurchaser,
+               contact               as contact,
+               contact_mobile        as contactMobile,
+               contact_tel           as contactTel,
+               contact_address       as contactAddress
+        from t_supplier
+        where deleted = 0
+          and name = #{supplierName}
+    </select>
+</mapper>
